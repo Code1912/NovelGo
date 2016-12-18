@@ -4,15 +4,19 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.code1912.novelgo.base.BaseActivity;
+import com.code1912.novelgo.bean.Test;
+import com.code1912.novelgo.databinding.ActivityMainBinding;
+import com.code1912.novelgo.viewmodel.MainViewModel;
+
+public class MainActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		this.findViewById(R.id.iconics_tag_id).setOnTouchListener((e,m)->{
-			return  true;
-		});
-		DataBindingUtil.setContentView(this,R.layout.activity_main);
+		initView(R.layout.activity_main);
+		MainViewModel viewModel=new MainViewModel(this);
+		setViewModel(viewModel);
 	}
+
 }
