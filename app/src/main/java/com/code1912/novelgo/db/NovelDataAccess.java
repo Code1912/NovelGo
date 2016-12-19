@@ -17,7 +17,7 @@ public class NovelDataAccess {
 		return novelDataAccess;
 	}
 
-	public List<Novel> getAllNovels() {
+	/*public List<Novel> getAllNovels() {
 		return Novel.listAll(Novel.class);
 	}
 
@@ -73,5 +73,5 @@ public class NovelDataAccess {
 			chapterInfo.add_date= Util.getCurrentDate();
 		}
 		ChapterInfo.saveInTx(list);
-	}
+	}*/
 }

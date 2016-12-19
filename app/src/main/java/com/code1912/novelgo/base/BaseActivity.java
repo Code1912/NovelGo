@@ -8,15 +8,21 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.databinding.library.baseAdapters.BR;
 import com.code1912.novelgo.R;
 import com.code1912.novelgo.databinding.ActivityMainBinding;
 import com.code1912.novelgo.util.NetworkReceiver;
+import com.code1912.novelgo.view.LoadingView;
 
 import java.io.Console;
 import java.lang.reflect.InvocationTargetException;
@@ -31,17 +37,29 @@ import java.util.NoSuchElementException;
 public class BaseActivity extends AppCompatActivity implements NetworkReceiver.OnNetworkChangedListener {
 	NetworkReceiver networkReceiver;
 	protected ViewDataBinding viewDataBinding;
-
+        protected  LoadingView loadingView;
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	}
 
-	protected void initView(Integer layoutId) {
-		setContentView(layoutId);
+	public void setActivityView(@LayoutRes int  layoutId,boolean showBackBtn) {
 		viewDataBinding = DataBindingUtil.setContentView(this, layoutId);
-	}
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
 
+		getSupportActionBar().setDisplayHomeAsUpEnabled(showBackBtn);
+		//toolbar.setNavigationOnClickListener(v -> SearchActivity.this.finish());
+		loadingView = findView(R.id.loading_view);
+
+	}
+	public void setActivityView(@LayoutRes int  layoutId) {
+		setActivityView(layoutId,true);
+	}
+	private ViewGroup getRootView()
+	{
+		return findView(android.R.id.content);
+	}
 	public <T> T findView(int id) {
 		return (T) this.findViewById(id);
 	}
@@ -66,40 +84,12 @@ public class BaseActivity extends AppCompatActivity implements NetworkReceiver.O
 		onBackPressed();
 	}
 
-	public <T> void setEntity(T entity) {
-		try {
-			Class<?> entityClass = entity.getClass();
-			Method method = viewDataBinding.getClass().getMethod(String.format("set%s", entityClass.getSimpleName()), entityClass);
-			if (method != null) {
-				method.invoke(viewDataBinding, entity);
-			}
-		} catch (IllegalAccessException ex) {
-			ex.printStackTrace();
-		} catch (IllegalArgumentException ex) {
-			ex.printStackTrace();
-		} catch (InvocationTargetException ex) {
-			ex.printStackTrace();
-		} catch (NoSuchMethodException ex) {
-			ex.printStackTrace();
-		}
+	public <T> void setEntity(int variableId,T entity) {
+		 viewDataBinding.setVariable(variableId,entity);
 	}
 
 	public <T> void setViewModel(T entity) {
-		try {
-			Class<?> entityClass = entity.getClass();
-			Method method = viewDataBinding.getClass().getMethod("setVM", entityClass);
-			if (method != null) {
-				method.invoke(viewDataBinding, entity);
-			}
-		} catch (IllegalAccessException ex) {
-			ex.printStackTrace();
-		} catch (IllegalArgumentException ex) {
-			ex.printStackTrace();
-		} catch (InvocationTargetException ex) {
-			ex.printStackTrace();
-		} catch (NoSuchMethodException ex) {
-			ex.printStackTrace();
-		}
+		viewDataBinding.setVariable(BR.VM,entity);
 	}
 
 	public void registerNetworkWatch() {
@@ -111,9 +101,20 @@ public class BaseActivity extends AppCompatActivity implements NetworkReceiver.O
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		if (networkReceiver != null) {
+			IntentFilter intentFilter = new IntentFilter();
+			intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+			this.registerReceiver(networkReceiver, intentFilter);
+		}
+	}
+
+	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		unregisterReceiver(networkReceiver);
+		if (networkReceiver != null)
+			unregisterReceiver(networkReceiver);
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
-
+apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
@@ -28,6 +28,12 @@ android {
     dataBinding {
         enabled = true
     }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+    defaultConfig {
+        multiDexEnabled = true
+    }
 }
 
 dependencies {
@@ -40,11 +46,12 @@ dependencies {
     compile 'com.android.support:design:23.4.0'
     compile 'com.mikepenz:iconics-core:2.8.1@aar'
     compile 'com.mikepenz:fontawesome-typeface:4.7.0.0@aar'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.github.satyan:sugar:1.5'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'org.greenrobot:greendao:3.2.0'
     compile 'com.alibaba:fastjson:1.2.21'
     compile 'com.github.davide-maestroni:jroutine-android-retrofit:6.0.0'
     compile 'io.reactivex.rxjava2:rxjava:2.0.1'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+    compile 'org.apache.calcite:calcite-linq4j:1.10.0'
 }
