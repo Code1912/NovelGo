@@ -19,10 +19,10 @@ public class MainActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setActivityView(R.layout.activity_main,false);
-		ActivityMainBinding binding;
 		viewModel = new MainViewModel(this);
 		setViewModel(viewModel);
 	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

@@ -1,9 +1,17 @@
 package com.code1912.novelgo.db;
 
+import android.database.Cursor;
+
+import com.code1912.novelgo.application.AppContext;
+import com.code1912.novelgo.bean.ChapterContent;
+import com.code1912.novelgo.bean.ChapterContentDao;
 import com.code1912.novelgo.bean.ChapterInfo;
+import com.code1912.novelgo.bean.ChapterInfoDao;
 import com.code1912.novelgo.bean.Novel;
+import com.code1912.novelgo.bean.NovelDao;
 import com.code1912.novelgo.util.Util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,61 +25,76 @@ public class NovelDataAccess {
 		return novelDataAccess;
 	}
 
-	/*public List<Novel> getAllNovels() {
-		return Novel.listAll(Novel.class);
+	private NovelDao getNovelDao() {
+		return AppContext.getDaoSession().getNovelDao();
+	}
+
+	private ChapterInfoDao getChapterInfoDao() {
+		return AppContext.getDaoSession().getChapterInfoDao();
+	}
+
+	private ChapterContentDao getChapterContentDao() {
+		return AppContext.getDaoSession().getChapterContentDao();
+	}
+
+	public List<Novel> getAllNovels() {
+		return getNovelDao().loadAll();
 	}
 
 	public void addNovel(Novel novel) {
-		novel.add_date=Util.getCurrentDate();
-		novel.save();
+		novel.setAdd_date(Util.getCurrentDate());
+		getNovelDao().save(novel);
 	}
 
-	public void updateNovelReadChapterCount(long novelId,int readCount) {
-		Novel info= 	Novel.findById(Novel.class,novelId);
-		info.read_chapter_count=readCount;
-		info.save();
+	public void updateNovelReadChapterCount(long novelId, int readCount) {
+		Novel info = getNovelDao().load(novelId);
+		info.setRead_chapter_count(readCount);
+		getNovelDao().save(info);
 	}
 
-	public void updateNovelIsHaveNew(long novelId,boolean isHaveNew) {
-		Novel info= 	Novel.findById(Novel.class,novelId);
-		info.is_have_new=isHaveNew;
-		info.save();
+	public void updateNovelIsHaveNew(long novelId, boolean isHaveNew) {
+		Novel info = getNovelDao().load(novelId);
+		info.setIs_have_new(isHaveNew);
+		getNovelDao().save(info);
 	}
 
-	public  void DeleteNovel(long novelId) {
-		Novel info = Novel.findById(Novel.class, novelId);
-		info.delete();
-		List<ChapterInfo> list = ChapterInfo.findWithQuery(ChapterInfo.class,
-			String.format("select id from  Chapter_Info where novelId=%d     order by  chapterIndex asc ", novelId));
-		if (list != null) {
-			for (ChapterInfo chapterInfo : list) {
-				chapterInfo.delete();
-			}
-		}
+	public void DeleteNovel(long novelId) {
+		getNovelDao().deleteByKey(novelId);
+		AppContext.getDaoSession().getDatabase().execSQL(String.format("delete  from  Chapter_Info where novelId=%d  ", novelId), null);
+
 	}
 
-	public List<ChapterInfo> getAllChapters(long novelId,int type) {
-		List<ChapterInfo> list = ChapterInfo.findWithQuery(ChapterInfo.class,
-			String.format("select id, title,url,novelId,addDate,isReaded,position,chapterIndex,isDownloaded,'' as content,type from  Chapter_Info where novelId=%d and type=%d order by  chapterIndex asc ", novelId, type));
+	public List<ChapterInfo> getAllChapters(long novelId, int type) {
+		List<ChapterInfo> list = new ArrayList<>();
+		list = getChapterInfoDao().queryRaw(String.format(" novelId=? and typ=?", novelId, type), String.valueOf(novelId), String.valueOf(type));
 		return list;
 	}
 
-	public  void updateChapterPosition(long chapterId,int position){
-		ChapterInfo info= 	ChapterInfo.findById(ChapterInfo.class,chapterId);
-		info.position=position;
-		info.save();
+	public void updateChapterPosition(long chapterId, int position) {
+		ChapterInfo info = getChapterInfoDao().load(chapterId);
+		info.setPosition(position);
+		getChapterInfoDao().save(info);
 	}
 
-	public String getChapterContent(long chapterId){
-		ChapterInfo info= 	ChapterInfo.findById(ChapterInfo.class,chapterId);
-		return  info==null?"":info.content;
+	public String getChapterContent(long chapterId) {
+		ChapterContent info = getChapterContentDao().load(chapterId);
+		return info == null ? "" : info.getContent();
 	}
 
-	public  void  addChapterList(long novelId,List<ChapterInfo> list){
-		for (ChapterInfo chapterInfo : list) {
-			chapterInfo.novel_id=novelId;
-			chapterInfo.add_date= Util.getCurrentDate();
+	public void updateContent(long chapterId, String content) {
+		ChapterContent info = getChapterContentDao().load(chapterId);
+		if (info == null) {
+			info = new ChapterContent(chapterId, content);
 		}
-		ChapterInfo.saveInTx(list);
-	}*/
+		info.setContent(content);
+		getChapterContentDao().save(info);
+	}
+
+	public void addChapterList(long novelId, List<ChapterInfo> list) {
+		for (ChapterInfo chapterInfo : list) {
+			chapterInfo.setNovel_id(novelId);
+			chapterInfo.setAdd_date(Util.getCurrentDate());
+		}
+		getChapterInfoDao().saveInTx(list);
+	}
 }

@@ -24,7 +24,6 @@ public class ChapterInfo  extends BaseObservable {
     private long id;
     @Bindable
     private String title;
-    private String content;
     private String url;
     private long novel_id;
     private Date add_date;
@@ -35,25 +34,24 @@ public class ChapterInfo  extends BaseObservable {
     @Transient
     private boolean is_current;
     private  int type;
-    @Generated(hash = 414731689)
-    public ChapterInfo(long id, String title, String content, String url,
-            long novel_id, Date add_date, boolean is_read, int position,
-            int chapter_index, boolean is_downloaded, int type) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-        this.url = url;
-        this.novel_id = novel_id;
-        this.add_date = add_date;
-        this.is_read = is_read;
-        this.position = position;
-        this.chapter_index = chapter_index;
-        this.is_downloaded = is_downloaded;
-        this.type = type;
-    }
-    @Generated(hash = 1687309083)
-    public ChapterInfo() {
-    }
+   @Generated(hash = 1404805228)
+public ChapterInfo(long id, String title, String url, long novel_id,
+        Date add_date, boolean is_read, int position, int chapter_index,
+        boolean is_downloaded, int type) {
+    this.id = id;
+    this.title = title;
+    this.url = url;
+    this.novel_id = novel_id;
+    this.add_date = add_date;
+    this.is_read = is_read;
+    this.position = position;
+    this.chapter_index = chapter_index;
+    this.is_downloaded = is_downloaded;
+    this.type = type;
+}
+@Generated(hash = 1687309083)
+public ChapterInfo() {
+}
     public long getId() {
         return this.id;
     }
@@ -65,12 +63,6 @@ public class ChapterInfo  extends BaseObservable {
     }
     public void setTitle(String title) {
         this.title = title;
-    }
-    public String getContent() {
-        return this.content;
-    }
-    public void setContent(String content) {
-        this.content = content;
     }
     public String getUrl() {
         return this.url;

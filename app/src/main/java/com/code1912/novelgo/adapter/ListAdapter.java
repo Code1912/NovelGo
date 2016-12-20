@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import com.code1912.novelgo.annotaion.ListItemEvent;
 import com.code1912.novelgo.base.BaseViewModel;
-
+import com.android.databinding.library.baseAdapters.BR;
 import org.apache.calcite.linq4j.Linq4j;
 
 import java.lang.annotation.Annotation;
@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import com.code1912.novelgo.BR;
 /**
  * Created by Code1912 on 2016/12/15.
  */
