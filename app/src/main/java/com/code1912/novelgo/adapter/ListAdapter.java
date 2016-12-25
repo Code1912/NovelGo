@@ -89,6 +89,7 @@ public class ListAdapter<T> extends BaseAdapter {
 				Integer key =(Integer) entry.getKey();
 				binding.setVariable(key, entry.getValue());
 			}
+			convertView=binding.getRoot();
 		}
 		else {
 			binding=DataBindingUtil.getBinding(convertView);

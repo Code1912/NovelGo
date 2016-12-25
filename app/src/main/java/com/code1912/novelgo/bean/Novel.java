@@ -20,43 +20,43 @@ import org.greenrobot.greendao.annotation.Transient;
 @Entity
 public class Novel extends BaseObservable {
 	@Id(autoincrement = true)
-	private long id;
+	private Long id;
 	private String author_name;
-	private long dateModified;
-	private String description;
+	private Long dateModified=0L;
+	private String description="";
 	private String genre;
 	private String genre_index;
 	@Bindable
 	public String image;
 	private String current_url;
 	@Bindable
-	private String name;
+	private String name = null;
 	private String newestChapter_headline;
 	private String newestChapter_url;
-	private long totalClick;
+	private Long totalClick=0L;
 	private String trialStatus;
 	private String updateStatus;
 	private String url;
-	private long wordCount;
+	private Long wordCount=0L;
 	@Bindable
-	private long read_chapter_count;
+	private Integer read_chapter_count = 0;
 	@Bindable
-	private int all_chapter_count;
+	private Integer all_chapter_count = 0;
 	@Bindable
-	private boolean is_have_new;
-	private int last_chapter_index;
+	private Boolean is_have_new = false;
+	private Integer last_chapter_index=0;
 	@Transient
-	private boolean refreshed;
+	private Boolean refreshed = false;
 	@Bindable
 	@Transient
-	private boolean isShowTrash;
+	private Boolean isShowTrash = false;
 	private Date add_date;
-
+	private Integer type=1;
 	public String getLastEditDate() {
 		return Util.getStrTime(this.dateModified, "yyyy-MM-dd HH:MM:ss");
 	}
 
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 
@@ -72,7 +72,7 @@ public class Novel extends BaseObservable {
 		this.author_name = author_name;
 	}
 
-	public long getDateModified() {
+	public Long getDateModified() {
 		return this.dateModified;
 	}
 
@@ -146,7 +146,7 @@ public class Novel extends BaseObservable {
 		this.newestChapter_url = newestChapter_url;
 	}
 
-	public long getTotalClick() {
+	public Long getTotalClick() {
 		return this.totalClick;
 	}
 
@@ -178,42 +178,38 @@ public class Novel extends BaseObservable {
 		this.url = url;
 	}
 
-	public long getWordCount() {
+	public Long getWordCount() {
 		return this.wordCount;
 	}
 
-	public void setWordCount(long wordCount) {
-		this.wordCount = wordCount;
-	}
-
-	public long getRead_chapter_count() {
+	public Integer getRead_chapter_count() {
 		return this.read_chapter_count;
 	}
 
-	public void setRead_chapter_count(long read_chapter_count) {
+	public void setRead_chapter_count(Integer read_chapter_count) {
 		this.read_chapter_count = read_chapter_count;
 	}
 
-	public int getAll_chapter_count() {
+	public Integer getAll_chapter_count() {
 		return this.all_chapter_count;
 	}
 
-	public void setAll_chapter_count(int all_chapter_count) {
+	public void setAll_chapter_count(Integer all_chapter_count) {
 		this.all_chapter_count = all_chapter_count;
 		notifyPropertyChanged(BR.all_chapter_count
 		);
 	}
 
-	public boolean getIs_have_new() {
+	public Boolean getIs_have_new() {
 		return this.is_have_new;
 	}
 
-	public void setIs_have_new(boolean is_have_new) {
+	public void setIs_have_new(Boolean is_have_new) {
 		this.is_have_new = is_have_new;
 		notifyPropertyChanged(BR.is_have_new);
 	}
 
-	public int getLast_chapter_index() {
+	public Integer getLast_chapter_index() {
 		return this.last_chapter_index;
 	}
 
@@ -221,7 +217,7 @@ public class Novel extends BaseObservable {
 		this.last_chapter_index = last_chapter_index;
 	}
 
-	public boolean getRefreshed() {
+	public Boolean getRefreshed() {
 		return this.refreshed;
 	}
 
@@ -229,7 +225,7 @@ public class Novel extends BaseObservable {
 		this.refreshed = refreshed;
 	}
 
-	public boolean getIsShowTrash() {
+	public Boolean getIsShowTrash() {
 		return this.isShowTrash;
 	}
 
@@ -246,7 +242,7 @@ public class Novel extends BaseObservable {
 		this.add_date = add_date;
 	}
 
-	public int getType() {
+	public Integer getType() {
 		return this.type;
 	}
 
@@ -254,19 +250,41 @@ public class Novel extends BaseObservable {
 		this.type = type;
 	}
 
-	public int type;
+	public void setId(Long id) {
+					this.id = id;
+	}
+
+	public void setDateModified(Long dateModified) {
+					this.dateModified = dateModified;
+	}
+
+	public void setWordCount(Long wordCount) {
+					this.wordCount = wordCount;
+	}
+
+	public void setLast_chapter_index(Integer last_chapter_index) {
+					this.last_chapter_index = last_chapter_index;
+	}
+
+	public void setType(Integer type) {
+					this.type = type;
+	}
+
+	public void setTotalClick(Long totalClick) {
+					this.totalClick = totalClick;
+	}
 
 	public Novel() {
 
 	}
 
-	@Generated(hash = 1851106351)
-	public Novel(long id, String author_name, long dateModified, String description,
-									String genre, String genre_index, String image, String current_url,
-									String name, String newestChapter_headline, String newestChapter_url,
-									long totalClick, String trialStatus, String updateStatus, String url,
-									long wordCount, long read_chapter_count, int all_chapter_count,
-									boolean is_have_new, int last_chapter_index, Date add_date, int type) {
+	@Generated(hash = 1687425335)
+	public Novel(Long id, String author_name, Long dateModified, String description,
+									String genre, String genre_index, String image, String current_url, String name,
+									String newestChapter_headline, String newestChapter_url, Long totalClick,
+									String trialStatus, String updateStatus, String url, Long wordCount,
+									Integer read_chapter_count, Integer all_chapter_count, Boolean is_have_new,
+									Integer last_chapter_index, Date add_date, Integer type) {
 					this.id = id;
 					this.author_name = author_name;
 					this.dateModified = dateModified;

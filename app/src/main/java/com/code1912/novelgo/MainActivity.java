@@ -45,7 +45,7 @@ public class MainActivity extends BaseActivity {
 		//s.setText("11111111111");
 	//	viewModel.setTest(s);
 
-		viewModel.getTest().setText("1111");
+	//	viewModel.getTest().setText("1111");
 	}
 
 }

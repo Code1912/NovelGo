@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -22,7 +23,9 @@ import com.android.databinding.library.baseAdapters.BR;
 import com.code1912.novelgo.R;
 import com.code1912.novelgo.databinding.ActivityMainBinding;
 import com.code1912.novelgo.util.NetworkReceiver;
+import com.code1912.novelgo.util.Util;
 import com.code1912.novelgo.view.LoadingView;
+import com.code1912.novelgo.view.ToastView;
 
 import java.io.Console;
 import java.lang.reflect.InvocationTargetException;
@@ -66,7 +69,12 @@ public class BaseActivity extends AppCompatActivity implements NetworkReceiver.O
 
 	public void showToast(String msg) {
 		runOnUiThread(() -> {
-			Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+			Toast toast = new Toast(this);
+			toast.setGravity(Gravity.BOTTOM, 0, Util.dip2px(this,80));
+			toast.setDuration(Toast.LENGTH_LONG);
+			ToastView view=new ToastView(this);
+			view.setText(msg);
+			toast.setView(view);
 			toast.show();
 		});
 	}

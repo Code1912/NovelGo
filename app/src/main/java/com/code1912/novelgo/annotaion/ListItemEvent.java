@@ -11,9 +11,10 @@ import java.lang.annotation.Target;
  */
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.METHOD})
+@Target({ElementType.FIELD, ElementType.METHOD})
 @Documented
 public @interface ListItemEvent {
+
 
 	int variableId() default  -1;
 }

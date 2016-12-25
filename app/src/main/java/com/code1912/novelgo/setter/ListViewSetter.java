@@ -2,7 +2,10 @@ package com.code1912.novelgo.setter;
 
 import android.content.Context;
 import android.databinding.BindingAdapter;
+import android.databinding.Observable;
 import android.databinding.ObservableArrayList;
+import android.widget.AbsListView;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import com.code1912.novelgo.adapter.ListAdapter;
@@ -14,10 +17,9 @@ import com.code1912.novelgo.base.BaseViewModel;
 
 public class ListViewSetter {
 	@BindingAdapter({"items", "layout_id", "view_model"})
-	public static <T> void bindList(ListView view, ObservableArrayList<T> items, int layoutId, BaseViewModel viewModel) {
-		ListAdapter<T> adapter = new ListAdapter<T>(items, layoutId,viewModel);
+	public static <Observable> void bindList(AbsListView view, ObservableArrayList<Observable> items, int layoutId, BaseViewModel viewModel) {
+		ListAdapter<Observable> adapter = new ListAdapter<Observable>(items, layoutId,viewModel);
 		view.setAdapter(adapter);
-		view.getAdapter();
 	}
 }
 

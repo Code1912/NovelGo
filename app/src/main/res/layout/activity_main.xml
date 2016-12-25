@@ -37,10 +37,13 @@
                       android:numColumns="auto_fit"
                       android:columnWidth="120dp" android:scrollbars="none"
                       android:stretchMode="columnWidth"
+                      app:items="@{VM.novelList}"
+                      app:layout_id="@{VM.item_layout_id}"
+                      app:view_model="@{VM}"
                 >
             </GridView>
         </android.support.v4.widget.SwipeRefreshLayout>
-       <com.code1912.novelgo.view.LoadingView android:visibility="@{VM.isShowLoading?View.VISIBLE:View.INVISIBLE}"
+       <com.code1912.novelgo.view.LoadingView  android:visibility="@{VM.isShowLoading?View.VISIBLE:View.INVISIBLE}"
            android:layout_width="match_parent" android:id="@+id/loading_view"
            android:layout_height="match_parent">
 

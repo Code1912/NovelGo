@@ -1,6 +1,4 @@
-package com.code1912.novelgo.db;
-
-import android.database.Cursor;
+package com.code1912.novelgo.biz;
 
 import com.code1912.novelgo.application.AppContext;
 import com.code1912.novelgo.bean.ChapterContent;
@@ -18,11 +16,11 @@ import java.util.List;
  * Created by Code1912 on 2016/12/18.
  */
 
-public class NovelDataAccess {
-	static final NovelDataAccess novelDataAccess = new NovelDataAccess();
+public class NovelBiz {
+	static final NovelBiz biz = new NovelBiz();
 
-	public NovelDataAccess getInstance() {
-		return novelDataAccess;
+	public static NovelBiz getInstance() {
+		return biz;
 	}
 
 	private NovelDao getNovelDao() {
@@ -46,6 +44,10 @@ public class NovelDataAccess {
 		getNovelDao().save(novel);
 	}
 
+	public Novel getNovel(long id) {
+		return getNovelDao().load(id);
+	}
+
 	public void updateNovelReadChapterCount(long novelId, int readCount) {
 		Novel info = getNovelDao().load(novelId);
 		info.setRead_chapter_count(readCount);
@@ -59,9 +61,13 @@ public class NovelDataAccess {
 	}
 
 	public void DeleteNovel(long novelId) {
+		Novel novel = getNovel(novelId);
 		getNovelDao().deleteByKey(novelId);
+		List<ChapterInfo> list = getAllChapters(novel.getId(), novel.getType());
+		for (ChapterInfo info : list) {
+			getChapterContentDao().deleteByKey(info.getId());
+		}
 		AppContext.getDaoSession().getDatabase().execSQL(String.format("delete  from  Chapter_Info where novelId=%d  ", novelId), null);
-
 	}
 
 	public List<ChapterInfo> getAllChapters(long novelId, int type) {

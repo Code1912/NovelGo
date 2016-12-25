@@ -3,7 +3,10 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
+        <import type="com.code1912.novelgo.setter.EventSetter"/>
         <variable  name="item"     type="com.code1912.novelgo.bean.Novel" />
+        <variable  name="item_touch"     type="EventSetter.ProxyOnTouchListener" />
+        <variable  name="item_long_click"     type="EventSetter.ProxyOnLongClickListener" />
     </data>
     <FrameLayout
                         android:paddingTop="@dimen/activity_vertical_margin"
@@ -14,6 +17,11 @@
 
                 <LinearLayout android:layout_marginTop="15dp"
                               android:orientation="vertical"
+                              app:onTouch="@{item_touch}"
+                              app:onTouchData="@{item}"
+
+                              app:onLongClick="@{item_long_click}"
+                              app:onLongClickData="@{item}"
                               android:layout_width="match_parent"
                               android:layout_height="match_parent"
                                  >
@@ -44,24 +52,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/novel_all_chapter_count"
-                            android:text="@{item.all_chapter_count}"
+                            android:text="@{String.valueOf(item.all_chapter_count)}"
                             android:textSize="@dimen/chapter_count_size"
                              />
                     </LinearLayout>
 
                 </LinearLayout>
             <ImageView
-                android:layout_width="wrap_content"  android:visibility="@{item.is_have_new&amp;&amp;item.isShowTrash?View.VISIBLE:View.GONE}"  android:id="@+id/icon_has_new" android:src="@mipmap/ic_has_new"
+                android:layout_width="wrap_content"   android:visibility="@{item.is_have_new&amp;&amp;item.isShowTrash?View.VISIBLE:View.GONE}"  android:id="@+id/icon_has_new" android:src="@mipmap/ic_has_new"
                 android:layout_height="wrap_content"  android:layout_gravity="top|right"
                  />
 
-            <LinearLayout android:orientation="vertical"
-                android:layout_width="match_parent" android:visibility="@{item.isShowTrash?View.VISIBLE:View.GONE}"
-                          android:layout_height="match_parent"  android:background="@android:color/transparent"
-                android:id="@+id/item_mask"></LinearLayout>
-            <ImageView
-            android:layout_width="wrap_content"  android:id="@+id/icon_trash" android:src="@mipmap/trash"
 
-            android:layout_height="wrap_content"  android:layout_gravity="top|right"/>
+            <ImageView
+            android:layout_width="20dp"  android:id="@+id/icon_trash" android:visibility="@{item.isShowTrash?View.VISIBLE:View.GONE}"  android:src="@mipmap/trash"
+
+            android:layout_height="20dp"  android:layout_gravity="top|right"/>
         </FrameLayout>
 </layout>
