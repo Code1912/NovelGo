@@ -2,17 +2,17 @@ package com.code1912.novelgo.bean;
 
 import android.databinding.Bindable;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
-
+import com.orm.dsl.Table;
 /**
  * Created by Code1912 on 2016/12/20.
  */
-@Entity
+@Table
 public class ChapterContent {
-
-	@Id(autoincrement = false)
+	public ChapterContent(long chapterId, String content) {
+		this.chapterId = chapterId;
+		this.content = content;
+	}
+        private  long id;
 	private long chapterId;
 
 	private String content;
@@ -33,14 +33,11 @@ public class ChapterContent {
 		this.chapterId = chapterId;
 	}
 
-	public  ChapterContent(){
-
+	public long getId() {
+		return id;
 	}
 
-	@Generated(hash = 2032736143)
-	public ChapterContent(long chapterId, String content) {
-					this.chapterId = chapterId;
-					this.content = content;
+	public void setId(long id) {
+		this.id = id;
 	}
-
 }

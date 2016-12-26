@@ -31,7 +31,7 @@ public class NovelService implements  INovelService {
 	static final String API_HOST = "http://192.168.1.107:3000/";
 	Retrofit retrofit;
 	INovelService service;
-
+	public  static final  NovelService instance=new NovelService();
 	NovelService() {
 		retrofit = new Retrofit
 			.Builder().

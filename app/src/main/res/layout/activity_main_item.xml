@@ -7,6 +7,8 @@
         <variable  name="item"     type="com.code1912.novelgo.bean.Novel" />
         <variable  name="item_touch"     type="EventSetter.ProxyOnTouchListener" />
         <variable  name="item_long_click"     type="EventSetter.ProxyOnLongClickListener" />
+        <variable  name="item_click"     type="EventSetter.ProxyOnClickListener" />
+        <variable  name="item_remove_click"     type="EventSetter.ProxyOnClickListener" />
     </data>
     <FrameLayout
                         android:paddingTop="@dimen/activity_vertical_margin"
@@ -22,6 +24,10 @@
 
                               app:onLongClick="@{item_long_click}"
                               app:onLongClickData="@{item}"
+
+                              app:onClick="@{item_click}"
+                              app:onClickData="@{item}"
+
                               android:layout_width="match_parent"
                               android:layout_height="match_parent"
                                  >
@@ -59,14 +65,18 @@
 
                 </LinearLayout>
             <ImageView
-                android:layout_width="wrap_content"   android:visibility="@{item.is_have_new&amp;&amp;item.isShowTrash?View.VISIBLE:View.GONE}"  android:id="@+id/icon_has_new" android:src="@mipmap/ic_has_new"
+                android:layout_width="wrap_content"   android:visibility="@{item.hasNew&amp;&amp;item.showTrash?View.VISIBLE:View.GONE}"  android:id="@+id/icon_has_new" android:src="@mipmap/ic_has_new"
                 android:layout_height="wrap_content"  android:layout_gravity="top|right"
                  />
 
 
             <ImageView
-            android:layout_width="20dp"  android:id="@+id/icon_trash" android:visibility="@{item.isShowTrash?View.VISIBLE:View.GONE}"  android:src="@mipmap/trash"
-
+            android:layout_width="20dp"
+            android:id="@+id/icon_trash"
+            android:visibility="@{item.showTrash?View.VISIBLE:View.GONE}"
+            android:src="@mipmap/trash"
+            app:onClick="@{item_remove_click}"
+            app:onClickData="@{item}"
             android:layout_height="20dp"  android:layout_gravity="top|right"/>
         </FrameLayout>
 </layout>

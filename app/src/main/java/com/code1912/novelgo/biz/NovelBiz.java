@@ -1,14 +1,9 @@
 package com.code1912.novelgo.biz;
-
-import com.code1912.novelgo.application.AppContext;
 import com.code1912.novelgo.bean.ChapterContent;
-import com.code1912.novelgo.bean.ChapterContentDao;
 import com.code1912.novelgo.bean.ChapterInfo;
-import com.code1912.novelgo.bean.ChapterInfoDao;
 import com.code1912.novelgo.bean.Novel;
-import com.code1912.novelgo.bean.NovelDao;
 import com.code1912.novelgo.util.Util;
-
+import com.orm.SugarRecord;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,77 +18,70 @@ public class NovelBiz {
 		return biz;
 	}
 
-	private NovelDao getNovelDao() {
-		return AppContext.getDaoSession().getNovelDao();
-	}
-
-	private ChapterInfoDao getChapterInfoDao() {
-		return AppContext.getDaoSession().getChapterInfoDao();
-	}
-
-	private ChapterContentDao getChapterContentDao() {
-		return AppContext.getDaoSession().getChapterContentDao();
-	}
-
 	public List<Novel> getAllNovels() {
-		return getNovelDao().loadAll();
+		return SugarRecord.listAll(Novel.class);
 	}
 
 	public void addNovel(Novel novel) {
 		novel.setAdd_date(Util.getCurrentDate());
-		getNovelDao().save(novel);
+		SugarRecord.save(novel);
 	}
 
 	public Novel getNovel(long id) {
-		return getNovelDao().load(id);
+		return SugarRecord.findById(Novel.class,id);
 	}
 
 	public void updateNovelReadChapterCount(long novelId, int readCount) {
-		Novel info = getNovelDao().load(novelId);
+		Novel info = getNovel(novelId);
 		info.setRead_chapter_count(readCount);
-		getNovelDao().save(info);
+		SugarRecord.save(info);
 	}
 
 	public void updateNovelIsHaveNew(long novelId, boolean isHaveNew) {
-		Novel info = getNovelDao().load(novelId);
-		info.setIs_have_new(isHaveNew);
-		getNovelDao().save(info);
+		Novel info = getNovel(novelId);
+		info.setHasNew(isHaveNew);
+		SugarRecord.save(info);
 	}
 
-	public void DeleteNovel(long novelId) {
+	public void deleteNovel(long novelId) {
 		Novel novel = getNovel(novelId);
-		getNovelDao().deleteByKey(novelId);
+		SugarRecord.delete(novel);
 		List<ChapterInfo> list = getAllChapters(novel.getId(), novel.getType());
+		SugarRecord.deleteInTx(list);
 		for (ChapterInfo info : list) {
-			getChapterContentDao().deleteByKey(info.getId());
+			SugarRecord.deleteAll(ChapterContent.class,String.format("  chapterId=%d",info.getId()));
 		}
-		AppContext.getDaoSession().getDatabase().execSQL(String.format("delete  from  Chapter_Info where novelId=%d  ", novelId), null);
+
 	}
 
 	public List<ChapterInfo> getAllChapters(long novelId, int type) {
 		List<ChapterInfo> list = new ArrayList<>();
-		list = getChapterInfoDao().queryRaw(String.format(" novelId=? and typ=?", novelId, type), String.valueOf(novelId), String.valueOf(type));
+		list=SugarRecord.find(ChapterInfo.class,"    novelId=? and type=?",new String[]{String.valueOf(novelId),String.valueOf(type)},"","chapterIndex asc",null);
 		return list;
 	}
 
 	public void updateChapterPosition(long chapterId, int position) {
-		ChapterInfo info = getChapterInfoDao().load(chapterId);
+		ChapterInfo info = SugarRecord.findById(ChapterInfo.class,chapterId);
 		info.setPosition(position);
-		getChapterInfoDao().save(info);
+		SugarRecord.save(info);
 	}
 
 	public String getChapterContent(long chapterId) {
-		ChapterContent info = getChapterContentDao().load(chapterId);
+		ChapterContent info = getContentByChapterId(chapterId);
 		return info == null ? "" : info.getContent();
 	}
 
+	private  ChapterContent getContentByChapterId(long chapterId){
+		List<ChapterContent> list=SugarRecord.find(ChapterContent.class,String.format("chapterId=%d",chapterId));
+		return  list==null||list.size()==0?null:list.get(0);
+	}
 	public void updateContent(long chapterId, String content) {
-		ChapterContent info = getChapterContentDao().load(chapterId);
+		ChapterContent info =  getContentByChapterId(chapterId);
 		if (info == null) {
 			info = new ChapterContent(chapterId, content);
 		}
 		info.setContent(content);
-		getChapterContentDao().save(info);
+		SugarRecord.save(info);
 	}
 
 	public void addChapterList(long novelId, List<ChapterInfo> list) {
@@ -101,6 +89,6 @@ public class NovelBiz {
 			chapterInfo.setNovel_id(novelId);
 			chapterInfo.setAdd_date(Util.getCurrentDate());
 		}
-		getChapterInfoDao().saveInTx(list);
+		SugarRecord.saveInTx(list);
 	}
 }
