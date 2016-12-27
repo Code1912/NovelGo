@@ -3,6 +3,7 @@ package com.code1912.novelgo.application;
 import android.app.Application;
 import android.content.Context;
 
+import com.code1912.novelgo.biz.NovelBiz;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.iconics.Iconics;
 import com.mikepenz.iconics.context.IconicsContextWrapper;
@@ -19,7 +20,6 @@ public class AppContext extends Application {
 		return singleton;
 	}
 
-
 	@Override
 	public final void onCreate() {
 		super.onCreate();
@@ -30,6 +30,7 @@ public class AppContext extends Application {
 		Iconics.registerFont(new FontAwesome());
 
 		SugarContext.init(this);
+		NovelBiz.getInstance().init();
 	}
 
 	@Override

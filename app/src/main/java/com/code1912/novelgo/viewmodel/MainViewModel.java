@@ -4,6 +4,9 @@ import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.widget.AdapterView;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.code1912.novelgo.R;
@@ -25,6 +28,13 @@ import java.util.List;
  */
 
 public class MainViewModel extends BaseViewModel {
+	public final ObservableBoolean refreshing = new ObservableBoolean(false);
+
+	@Bindable
+	private int item_layout_id = R.layout.activity_main_item;
+
+	@Bindable
+	ObservableArrayList<Novel> novelList = new ObservableArrayList<>();
 	public int getItem_layout_id() {
 		return item_layout_id;
 	}
@@ -32,15 +42,6 @@ public class MainViewModel extends BaseViewModel {
 	public void setItem_layout_id(int item_layout_id) {
 		this.item_layout_id = item_layout_id;
 	}
-	public final ObservableBoolean refreshing = new ObservableBoolean(false);
-
-
-	@Bindable
-	private int item_layout_id = R.layout.activity_main_item;
-
-	@Bindable
-	ObservableArrayList<Novel> novelList = new ObservableArrayList<>();
-
 	public MainViewModel(BaseActivity context) {
 		super(context);
 		init();
@@ -71,21 +72,30 @@ public class MainViewModel extends BaseViewModel {
 	}
 
 	@ListItemEvent(variableId = BR.item_touch)
-	public EventSetter.ProxyOnTouchListener<Novel> onItemTouch = (v1, v2, data) -> {
-		return data.getShowTrash();
-	};
-
-	@ListItemEvent(variableId = BR.item_long_click)
-	public EventSetter.ProxyOnLongClickListener<Novel> onItemLongClick = (v1, data) -> {
+	public EventSetter.ProxyOnTouchListener<Novel> onItemTouch = (view, motionEvent, data) -> {
+		Log.i("sdfsdfdf",String.valueOf(motionEvent.getAction()));
 		for (Novel novel : novelList) {
 			novel.setShowTrash(true);
 		}
-		return data.getShowTrash();
+		return false;
 	};
 
+	public AdapterView.OnItemLongClickListener onItemLongClick = (v, v1, position, v3) -> {
+		for (Novel novel : novelList) {
+			novel.setShowTrash(true);
+		}
+		return true;
+	};
+	public AdapterView.OnItemClickListener onItemClick = (v, v1, position, v3) -> {
+		for (Novel novel : novelList) {
+			novel.setShowTrash(false);
+		}
+	};
 	@ListItemEvent(variableId = BR.item_click)
-	public EventSetter.ProxyOnClickListener<Novel> onItemClick = (v1, data) -> {
-		//data.setIsShowTrash(true);
+	public EventSetter.ProxyOnClickListener<Novel> onItemMaskClick = (v1, data) -> {
+		for (Novel novel : novelList) {
+			novel.setShowTrash(false);
+		}
 	};
 
 	@ListItemEvent(variableId = BR.item_remove_click)
@@ -98,7 +108,7 @@ public class MainViewModel extends BaseViewModel {
 		Novel novel = new Novel();
 		novel.setName("test");
 		novel.setAdd_date(Util.getCurrentDate());
-		NovelBiz.getInstance().addNovel(novel);
+		//NovelBiz.getInstance().addNovel(novel);
 		List<Novel> list = NovelBiz.getInstance().getAllNovels();
 		if (list != null) {
 			novelList.addAll(list);

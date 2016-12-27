@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+      >
     <data>
         <import type="android.view.View"/>
         <import type="com.code1912.novelgo.setter.EventSetter"/>
@@ -14,28 +15,20 @@
                         android:paddingTop="@dimen/activity_vertical_margin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="5dp" >
-
+                        android:paddingBottom="5dp"
+                        app:onLongClick="@{item_long_click}"
+                        app:onLongClickData="@{item}">
 
                 <LinearLayout android:layout_marginTop="15dp"
                               android:orientation="vertical"
-                              app:onTouch="@{item_touch}"
-                              app:onTouchData="@{item}"
-
-                              app:onLongClick="@{item_long_click}"
-                              app:onLongClickData="@{item}"
-
-                              app:onClick="@{item_click}"
-                              app:onClickData="@{item}"
-
                               android:layout_width="match_parent"
                               android:layout_height="match_parent"
                                  >
                     <ImageView
                         android:layout_width="87dp"
                         android:layout_height="120dp" android:scaleType="fitXY"
-                        android:src="@mipmap/nocover" android:layout_gravity="center_horizontal" app:image_url="@{item.image}"
-                        android:id="@+id/novel_img">
+                        android:src="@mipmap/nocover" android:layout_gravity="center_horizontal"
+                        app:image_url="@{item.image}">
                     </ImageView>
                     <TextView
                         android:id="@+id/novel_title"
@@ -64,12 +57,23 @@
                     </LinearLayout>
 
                 </LinearLayout>
+           <LinearLayout android:orientation="vertical"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                         android:background="@android:color/transparent"
+                         android:visibility="@{item.showTrash?View.VISIBLE:View.GONE}"
+                         app:onClick="@{item_click}"
+                         app:onClickData="@{item}"
+                       >
+
+           </LinearLayout>
             <ImageView
-                android:layout_width="wrap_content"   android:visibility="@{item.hasNew&amp;&amp;item.showTrash?View.VISIBLE:View.GONE}"  android:id="@+id/icon_has_new" android:src="@mipmap/ic_has_new"
-                android:layout_height="wrap_content"  android:layout_gravity="top|right"
+                android:layout_width="wrap_content"
+                android:visibility="@{item.hasNew&amp;&amp;item.showTrash?View.VISIBLE:View.GONE}"
+                android:src="@mipmap/ic_has_new"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|right"
                  />
-
-
             <ImageView
             android:layout_width="20dp"
             android:id="@+id/icon_trash"
@@ -77,6 +81,7 @@
             android:src="@mipmap/trash"
             app:onClick="@{item_remove_click}"
             app:onClickData="@{item}"
-            android:layout_height="20dp"  android:layout_gravity="top|right"/>
+            android:layout_height="20dp"
+            android:layout_gravity="top|right"/>
         </FrameLayout>
 </layout>

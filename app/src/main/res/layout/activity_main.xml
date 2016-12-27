@@ -43,6 +43,8 @@
                       app:items="@{VM.novelList}"
                       app:layout_id="@{VM.item_layout_id}"
                       app:view_model="@{VM}"
+                      app:onItemLongClick="@{VM.onItemLongClick}"
+                      app:onItemClick="@{VM.onItemClick}"
                 >
             </GridView>
         </android.support.v4.widget.SwipeRefreshLayout>

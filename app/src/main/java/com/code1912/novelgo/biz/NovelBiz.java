@@ -1,7 +1,9 @@
 package com.code1912.novelgo.biz;
 import com.code1912.novelgo.bean.ChapterContent;
 import com.code1912.novelgo.bean.ChapterInfo;
+import com.code1912.novelgo.bean.Config;
 import com.code1912.novelgo.bean.Novel;
+import com.code1912.novelgo.bean.Source;
 import com.code1912.novelgo.util.Util;
 import com.orm.SugarRecord;
 import java.util.ArrayList;
@@ -22,6 +24,18 @@ public class NovelBiz {
 		return SugarRecord.listAll(Novel.class);
 	}
 
+	public  void init(){
+		if(getConfig()==null){
+			Config config=new Config();
+			config.setSource(Source.BIQUGE.ordinal());
+			SugarRecord.save(config);
+		}
+	}
+
+	public Config getConfig(){
+		List<Config> list=SugarRecord.listAll(Config.class);
+		return  list==null||list.size()==0?null:list.get(0);
+	}
 	public void addNovel(Novel novel) {
 		novel.setAdd_date(Util.getCurrentDate());
 		SugarRecord.save(novel);
