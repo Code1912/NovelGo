@@ -86,6 +86,7 @@ public class MainViewModel extends BaseViewModel {
 		}
 		return true;
 	};
+
 	public AdapterView.OnItemClickListener onItemClick = (v, v1, position, v3) -> {
 		for (Novel novel : novelList) {
 			novel.setShowTrash(false);

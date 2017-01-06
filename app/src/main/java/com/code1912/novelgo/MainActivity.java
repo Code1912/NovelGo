@@ -34,8 +34,8 @@ public class MainActivity extends BaseActivity {
 
 		int id = item.getItemId();
 		if (id == R.id.main_search) {
-		//	Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-		//	startActivity(intent);
+		 	Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+		 	startActivity(intent);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

@@ -4,43 +4,66 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.code1912.novelgo.SearchActivity">
+
     <data>
+
         <import type="android.view.View"/>
-        <variable name="VM" type="com.code1912.novelgo.viewmodel.SearchViewModel" />
+
+        <variable
+            name="VM"
+            type="com.code1912.novelgo.viewmodel.SearchViewModel"/>
     </data>
-        <android.support.design.widget.CoordinatorLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fitsSystemWindows="true"
 
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        >
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
             >
-            <android.support.design.widget.AppBarLayout
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/AppTheme.AppBarOverlay"
-                >
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="?attr/colorPrimary"
-                    app:popupTheme="@style/AppTheme.PopupOverlay"/>
+                    android:layout_height="wrap_content"
+                    android:hint="小说GO"
+                    android:imeOptions="actionSearch"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:text="@={VM.keyword}"
+                    android:textCursorDrawable="@null"
+                    app:onAction="@{VM.onSearch}"/>
+            </android.support.v7.widget.Toolbar>
 
-            </android.support.design.widget.AppBarLayout>
-
-
-                  <com.code1912.novelgo.view.PullToRefreshListView
-                       app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                       app:items="@{VM.novelList}"
-                       app:layout_id="@{VM.item_layout_id}"
-                       app:view_model="@{VM}"
-                       app:onItemLongClick="@{VM.onItemLongClick}"
-                       app:onItemClick="@{VM.onItemClick}">
-
-                  </com.code1912.novelgo.view.PullToRefreshListView>
+        </android.support.design.widget.AppBarLayout>
 
 
-        </android.support.design.widget.CoordinatorLayout>
-    </layout>
+        <com.code1912.novelgo.view.PullToRefreshListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:items="@{VM.novelList}"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_id="@{VM.item_layout_id}"
+            app:onItemClick="@{VM.onItemClick}"
+            app:view_model="@{VM}">
+
+        </com.code1912.novelgo.view.PullToRefreshListView>
+
+        <com.code1912.novelgo.view.LoadingView
+            android:id="@+id/loading_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{VM.showLoading?View.VISIBLE:View.INVISIBLE}"></com.code1912.novelgo.view.LoadingView>
+
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

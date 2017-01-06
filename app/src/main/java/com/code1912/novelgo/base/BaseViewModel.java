@@ -13,17 +13,17 @@ public class BaseViewModel extends BaseObservable {
 	public BaseActivity context;
 
 	public Boolean getShowLoading() {
-		return isShowLoading;
+		return showLoading;
 	}
 
 
 	@Bindable
-	public      Boolean isShowLoading=false;
+	private    Boolean showLoading=false;
 
 
 	public void setShowLoading(Boolean showLoading) {
-		isShowLoading = showLoading;
-		notifyPropertyChanged(com.android.databinding.library.baseAdapters.BR.isShowLoading);
+		showLoading = showLoading;
+		notifyPropertyChanged(com.android.databinding.library.baseAdapters.BR.showLoading);
 	}
 
 	public BaseViewModel(BaseActivity context) {

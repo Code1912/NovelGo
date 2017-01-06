@@ -56,13 +56,16 @@ public class BaseActivity extends AppCompatActivity implements NetworkReceiver.O
 		loadingView = findView(R.id.loading_view);
 
 	}
+
 	public void setActivityView(@LayoutRes int  layoutId) {
 		setActivityView(layoutId,true);
 	}
+
 	private ViewGroup getRootView()
 	{
 		return findView(android.R.id.content);
 	}
+
 	public <T> T findView(int id) {
 		return (T) this.findViewById(id);
 	}
@@ -79,6 +82,12 @@ public class BaseActivity extends AppCompatActivity implements NetworkReceiver.O
 		});
 	}
 
+	protected  void setDisplayHomeAsUpEnabled(int id){
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		Toolbar toolbar =findView(id);
+		setSupportActionBar(toolbar);
+		toolbar.setNavigationOnClickListener(v -> BaseActivity.this.finish());
+	}
 	public void showLoading() {
 
 	}
