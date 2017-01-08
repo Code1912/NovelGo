@@ -3,6 +3,7 @@ package com.code1912.novelgo.bean;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import com.android.databinding.library.baseAdapters.BR;
+import com.code1912.novelgo.util.Util;
 import com.orm.dsl.Ignore;
 import com.orm.dsl.Table;
 import java.util.Date;
@@ -14,6 +15,9 @@ import java.util.Date;
 @Table
 public class Novel extends BaseObservable {
 	private long id;
+	@Bindable
+	@Ignore
+	private String lastEditDate;
 	private String author_name;
 	private long dateModified=0L;
 	@Bindable
@@ -21,7 +25,7 @@ public class Novel extends BaseObservable {
 	private String genre;
 	private String genre_index;
 	@Bindable
-	public String image;
+	private String image;
 	private String current_url;
 	@Bindable
 	private String name = null;
@@ -69,6 +73,9 @@ public class Novel extends BaseObservable {
 
 	public void setDateModified(long dateModified) {
 		this.dateModified = dateModified;
+		if(this.dateModified>0){
+			this.setLastEditDate( Util.getStrTime(this.dateModified,"yyyy-MM-dd HH:MM:ss"));
+		}
 	}
 
 	public String getDescription() {
@@ -243,5 +250,14 @@ public class Novel extends BaseObservable {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	public String getLastEditDate() {
+		return lastEditDate;
+	}
+
+	public void setLastEditDate(String lastEditDate) {
+		this.lastEditDate = lastEditDate;
+		notifyPropertyChanged(BR.lastEditDate);
 	}
 }

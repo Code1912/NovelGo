@@ -1,6 +1,7 @@
 package com.code1912.novelgo.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,12 +32,14 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
 	public PullToRefreshListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		initView(context);
+		initParams(context,attrs);
 
 	}
 
 	public PullToRefreshListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		initView(context);
+		initParams(context,attrs);
 	}
 
 	/**
@@ -51,6 +54,13 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
 		this.addFooterView(footerView);
 	}
 
+	private void initParams(Context context, AttributeSet attrs) {
+		TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.PullToRefreshListView);
+		if (typedArray != null) {
+			//footerView.setVisibility(typedArray.getBoolean(R.styleable.PullToRefreshListView_showFooter, false) ? VISIBLE : GONE);
+			typedArray.recycle();
+		}
+	}
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		//当滑动到底端，并滑动状态为 not scrolling
@@ -63,7 +73,10 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
 				//设置可见
 				footerView.setVisibility(View.VISIBLE);
 				//加载数据
-				onLoadListener.onLoad();
+				if(onPullDownListener ==null){
+					throw  new NullPointerException("Please set onPullDownListener.");
+				}
+				onPullDownListener.onLoad(this);
 			}
 		}
 	}
@@ -75,9 +88,9 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
 		this.totalItemCount = totalItemCount;
 	}
 
-	private OnLoadListener onLoadListener;
-	public void setOnLoadListener(OnLoadListener onLoadListener){
-		this.onLoadListener = onLoadListener;
+	private OnPullDownListener onPullDownListener;
+	public void setOnPullDownListener(OnPullDownListener onPullDownListener){
+		this.onPullDownListener = onPullDownListener;
 	}
 
 	/**
@@ -85,8 +98,8 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
 	 * @author Administrator
 	 *
 	 */
-	public interface OnLoadListener{
-		void onLoad();
+	public interface OnPullDownListener {
+		void onLoad(PullToRefreshListView view);
 	}
 
 	/**
@@ -97,4 +110,5 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
 		isLoading = false;
 		this.invalidate();
 	}
+
 }

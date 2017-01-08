@@ -1,5 +1,6 @@
 package com.code1912.novelgo.bean;
 
+import com.orm.dsl.Ignore;
 import com.orm.dsl.Table;
 
 /**
@@ -10,7 +11,7 @@ import com.orm.dsl.Table;
 public class Config {
 	private long id;
 
-	public int source;
+	public int source=Source.LUOQIU.getIndex();
 
 	public long getId() {
 		return id;
@@ -27,5 +28,8 @@ public class Config {
 	public void setSource(int source) {
 		this.source = source;
 	}
+
+	@Ignore
+	  public static final  Config  instance=new Config();
 
 }

@@ -23,6 +23,8 @@ import org.apache.calcite.linq4j.Linq4j;
 
 import java.util.List;
 
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * Created by Code1912 on 2016/12/15.
  */
@@ -54,7 +56,8 @@ public class MainViewModel extends BaseViewModel {
 	 };
 
 	private void refresh(Novel novel) {
-		NovelService.instance.chapterInfo(novel.getCurrent_url(), novel.getType()).subscribe(
+		NovelService.instance.chapterInfo(novel.getCurrent_url(), novel.getType())
+			.subscribeOn(Schedulers.newThread()).subscribe(
 			(response) -> {
 				if (response.resultList.size() > novel.getAll_chapter_count()) {
 					novel.setHasNew(true);

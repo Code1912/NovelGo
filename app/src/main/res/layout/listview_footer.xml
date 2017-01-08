@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/darker_gray"
+                android:background="@color/colorGray"
                 android:gravity="center"
                 android:paddingBottom="8dip"
                 android:paddingTop="5dip" >
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:paddingRight="100dp"
+        android:paddingRight="140dp"
         android:indeterminate="true" />
 
     <TextView

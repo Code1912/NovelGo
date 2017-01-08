@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.ObservableBoolean;
 
 /**
  * Created by Code1912 on 2016/12/15.
@@ -12,19 +13,7 @@ import android.databinding.Bindable;
 public class BaseViewModel extends BaseObservable {
 	public BaseActivity context;
 
-	public Boolean getShowLoading() {
-		return showLoading;
-	}
-
-
-	@Bindable
-	private    Boolean showLoading=false;
-
-
-	public void setShowLoading(Boolean showLoading) {
-		showLoading = showLoading;
-		notifyPropertyChanged(com.android.databinding.library.baseAdapters.BR.showLoading);
-	}
+	public ObservableBoolean showLoading=new ObservableBoolean(false);
 
 	public BaseViewModel(BaseActivity context) {
 		this.context = context;

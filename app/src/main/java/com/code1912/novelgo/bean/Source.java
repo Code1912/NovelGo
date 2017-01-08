@@ -4,7 +4,7 @@ package com.code1912.novelgo.bean;
  * Created by Code1912 on 2016/12/27.
  */
 
-public enum Source {
+public enum Source     {
 	LUOQIU("落秋中文", 1), BIQUGE("笔趣阁", 2);
 	// 成员变量
 	private String name;
@@ -14,6 +14,7 @@ public enum Source {
 		this.name = name;
 		this.index = index;
 	}
+
 	// 普通方法
 	public static String getName(int index) {
 		for (Source c : Source.values()) {

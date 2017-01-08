@@ -28,7 +28,7 @@ import retrofit2.http.Query;
 
 public class NovelService implements  INovelService {
 
-	static final String API_HOST = "http://192.168.1.107:3000/";
+	static final String API_HOST = "http://192.168.0.107:3000/";
 	Retrofit retrofit;
 	INovelService service;
 	public  static final  NovelService instance=new NovelService();
@@ -39,7 +39,7 @@ public class NovelService implements  INovelService {
 			.addConverterFactory(new NovelConverterFactory())
 			.addConverterFactory(new ChapterInfoConverterFactory())
 			.baseUrl(API_HOST)
-			.client(genericClient())
+		//	.client(genericClient())
 			.build();
 
 		service = retrofit.create(INovelService.class);

@@ -55,15 +55,12 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layout_id="@{VM.item_layout_id}"
             app:onItemClick="@{VM.onItemClick}"
-            app:view_model="@{VM}">
+            app:onPullDown="@{VM.onPullDownListener}"
+            app:showFooter="@{VM.showLoading}"
+            app:view_model="@{VM}"
+            >
 
         </com.code1912.novelgo.view.PullToRefreshListView>
-
-        <com.code1912.novelgo.view.LoadingView
-            android:id="@+id/loading_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="@{VM.showLoading?View.VISIBLE:View.INVISIBLE}"></com.code1912.novelgo.view.LoadingView>
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

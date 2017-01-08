@@ -15,7 +15,7 @@ import com.code1912.novelgo.base.BaseViewModel;
 
 public class EditTextSetter {
 	@BindingAdapter({"onAction"})
-	public static  void bindList(EditText editText, TextView.OnEditorActionListener onEditorActionListener) {
+	public static  void bindOnAction(EditText editText, TextView.OnEditorActionListener onEditorActionListener) {
 		editText.setOnEditorActionListener(onEditorActionListener);
 	}
 }

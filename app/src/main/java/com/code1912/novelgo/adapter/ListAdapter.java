@@ -95,7 +95,6 @@ public class ListAdapter<T> extends BaseAdapter {
 			binding=DataBindingUtil.getBinding(convertView);
 		}
 		binding.setVariable(BR.item, items.get(position));
-
 		return convertView;
 	}
 }

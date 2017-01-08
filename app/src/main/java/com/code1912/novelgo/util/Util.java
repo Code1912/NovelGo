@@ -46,4 +46,11 @@ public class Util {
 
 		return JSON.parseArray(str,(Class<T>)object.get(0).getClass());
 	}
+
+	public static boolean isNullOrEmpty(String str) {
+		if (str == null) {
+			return true;
+		}
+		return str.isEmpty();
+	}
 }
